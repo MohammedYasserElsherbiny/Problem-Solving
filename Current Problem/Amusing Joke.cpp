@@ -65,26 +65,31 @@ int main()
 
     while (tt--)
     {
-        map<char, int> mp1, mp2;
+        int n, mx = 0, cnt = 0;
+        cin >>  n;
 
-        string str1, str2, str3;
-        cin >> str1 >> str2 >> str3;
+        map<int, int> mp;
 
-        for(int i = 0; i < sz(str1); i++)
-            mp1[str1[i]]++;
+        for(int i = 0; i < 2 * n; i++)
+        {
+            int val; 
+            cin >> val;
 
-        for(int i = 0; i < sz(str2); i++)
-            mp1[str2[i]]++;
+            if(mp[val] == 1)
+            {
+                mp[val] = 0;
+                cnt--;
+            }
+            else if(mp[val] == 0)
+            {
+                mp[val] = 1;
+                cnt++;
+            }
 
-        for(int i = 0; i < sz(str3); i++)
-            mp2[str3[i]]++;
+            mx = max(mx, cnt);
+        }
 
-        if(mp1 == mp2)
-            cout << "YES";
-        else
-            cout << "NO";
-        
-        
+        cout << mx;
     }
 
     return 0;
@@ -94,8 +99,7 @@ int main()
 
 
 /*
-https://codeforces.com/group/fOSxgJrX1P/contest/662228/problem/D
-
+https://codeforces.com/group/fOSxgJrX1P/contest/662228/problem/E
 
 
 */
