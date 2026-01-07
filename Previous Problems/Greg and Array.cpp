@@ -9,11 +9,11 @@ typedef unsigned  long long ull;
 typedef vector<int> vi;
 typedef vector<long long> vl;
 #define all(x) x.begin(), x.end()
-#define si(x) ll(x.size())
+#define sz(x) ll(x.size())
 #define For(i, j, n) for(ll i = j; i < n; i++)
 #define rFor(i, j, n) for(ll i = j; i >= n; i--)
-#define read(a) for(ll i = 0; i < si(a); i++) cin >> a[i];
-#define readd(a) For(i, 0, si(a)) For(j, 0, si(a[0])) cin >> a[i][j];
+#define read(a) for(ll i = 0; i < sz(a); i++) cin >> a[i];
+#define readd(a) For(i, 0, si(a)) For(j, 0, sz(a[0])) cin >> a[i][j];
 #define F first
 #define S second
 #define SQ(a) (a)*(a)
@@ -66,20 +66,44 @@ int main()
         int n, m, k;
         cin >> n >> m >> k;
 
-        vi vec(n);
+        vector<pair<int, int>> range;
+        vl vec(n), val, operation(m + 2, 0), sum(n + 2, 0);
         read(vec);
 
-        vector<vi> qu(m + 2, vi(n + 1, 0));
 
         For(i, 0, m)
         {
-            int l, r, val;
-            cin >> l >> r >> val;
+            int l, r, v;
+            cin >> l >> r >> v;
 
-            qu[i + 1][l] += val;
-            qu[i + 1][r + 1] -= val;
+            range.push_back({l, r});
+            val.push_back(v);
         }
 
+        while(k--)
+        {
+            int l, r;
+
+            cin >> l >> r;
+
+            operation[l]++;
+            operation[r + 1]--;
+        }
+
+        For(i, 1, m + 1) operation[i] += operation[i - 1];
+
+        For(i, 1, m + 1) val[i - 1] *= operation[i];
+
+        For(i, 0, m ) 
+        {
+            sum[range[i].F] += val[i];
+            sum[range[i].S + 1] -= val[i];
+        }
+
+        
+        For(i, 1, n + 1) sum[i] += sum[i - 1];
+        
+        For(i, 0, n) cout << vec[i] + sum[i + 1] << ' ';
 
     }
 
